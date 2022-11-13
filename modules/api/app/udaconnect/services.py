@@ -131,4 +131,4 @@ class PersonService:
 
     @staticmethod
     def retrieve_all() -> List[Person]:
-        return db.session.query(Person).all()
+        return db.session.query(Person).order_by(Person.id).all()
