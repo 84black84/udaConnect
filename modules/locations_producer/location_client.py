@@ -3,7 +3,7 @@ import location_pb2
 import location_pb2_grpc
 
 """
-Sample implementation of a writer that can be used to write messages to gRPC.
+Sample implementation of a writer that can be used to write messages to gRPC server.
 """
 
 print("Sending sample payload...")
@@ -15,8 +15,9 @@ stub = location_pb2_grpc.LocationServiceStub(channel)
 item = location_pb2.LocationMessage(
     id=1,
     person_id=10,
-    id=4,
-    weight=4.5
+    longitude = '35.14968',
+    latitude = '-90.04892',
+    creation_time='21.11.2022'
 )
 
 
