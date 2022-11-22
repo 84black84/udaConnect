@@ -1,13 +1,18 @@
 import grpc
 import time
+import json
 import location_pb2
 import location_pb2_grpc
 from concurrent import futures
+from kafka import KafkaProducer
 
 """
     Creates a grpc server which can accept requests that include information for a new location object 
     for a particular person. Then create a message to a kafka item out of the received new location information.
 """
+
+TOPIC_NAME = 'items'
+KAFKA_SERVER = ['localhost:9092']
 
 class LocationServicer(location_pb2_grpc.LocationServiceServicer):
     def Create(self, request, context):
@@ -23,8 +28,19 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
         }
         
         print(request_value)
-
-        return location_pb2.LocationMessage(**request_value)
+        
+        try:
+            print('ready to send a message to kafka topic')
+            # send message to kafka topic
+            producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
+            kafka_data = json.dumps(request_value).encode()
+            producer.send(TOPIC_NAME, kafka_data)
+            producer.flush()
+        except Exception as exception:
+            print(exception)
+        
+        finally:
+            return location_pb2.LocationMessage(**request_value)
 
 
 # Initialize the gRPC server
