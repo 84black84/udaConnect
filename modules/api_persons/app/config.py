@@ -1,11 +1,11 @@
 import os
 from typing import List, Type
 
-DB_USERNAME = 'postgres'
-DB_PASSWORD = '22121986Bl'
-DB_HOST = 'localhost'
-DB_PORT = '5432'
-DB_NAME = 'geoconnections'
+DB_USERNAME = os.environ["DB_USERNAME"]
+DB_PASSWORD = os.environ["DB_PASSWORD"]
+DB_HOST = os.environ["DB_HOST"]
+DB_PORT = os.environ["DB_PORT"]
+DB_NAME = os.environ["DB_NAME"]
 
 class BaseConfig:
     CONFIG_NAME = "base"
