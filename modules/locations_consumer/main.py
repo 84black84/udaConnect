@@ -1,5 +1,4 @@
 from kafka import KafkaConsumer
-# from kafka.admin import KafkaAdminClient, NewTopic
 
 TOPIC_NAME = 'locations'
 

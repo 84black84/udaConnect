@@ -11,7 +11,7 @@ from kafka import KafkaProducer
     for a particular person. Then create a message to a kafka item out of the received new location information.
 """
 
-TOPIC_NAME = 'items'
+TOPIC_NAME = 'locations'
 KAFKA_SERVER = ['localhost:9092']
 
 class LocationServicer(location_pb2_grpc.LocationServiceServicer):
