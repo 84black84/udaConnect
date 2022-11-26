@@ -4,6 +4,11 @@ from sqlalchemy import Column, Integer, String
 from flask_restx import fields
 
 class Person(db.Model):
+    """ Person Database model
+
+    Args:
+        db (Model): SQLAlchemy Database model
+    """
     __tablename__ = "person"
 
     id = Column(Integer, primary_key=True)

@@ -9,6 +9,14 @@ logger = logging.getLogger("udaconnect-api")
 class PersonService:
     @staticmethod
     def create(person: Dict) -> Person:
+        """ Insert a new person entry in the DB
+
+        Args:
+            person (Dict): Person object (Dictionary)
+
+        Returns:
+            Person: Returns the newly created person entry
+        """
         new_person = Person()
         new_person.first_name = person["first_name"]
         new_person.last_name = person["last_name"]

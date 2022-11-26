@@ -2,6 +2,11 @@ from app.udaconnect.models import Person
 from marshmallow import Schema, fields
 
 class PersonSchema(Schema):
+    """ Person schema
+
+    Args:
+        Schema (Schema): Marshmallow schema class
+    """
     id = fields.Integer()
     first_name = fields.String()
     last_name = fields.String()
