@@ -1,7 +1,12 @@
-from app.udaconnect.models import Location, Person
+from app.udaconnect.models import Location
 from marshmallow import Schema, fields
 
 class LocationSchema(Schema):
+    """ Location schema
+
+    Args:
+        Schema (Schema): Marshmallow schema class
+    """
     id = fields.Integer()
     person_id = fields.Integer()
     longitude = fields.String(attribute="longitude")
@@ -10,13 +15,3 @@ class LocationSchema(Schema):
 
     class Meta:
         model = Location
-
-
-class PersonSchema(Schema):
-    id = fields.Integer()
-    first_name = fields.String()
-    last_name = fields.String()
-    company_name = fields.String()
-
-    class Meta:
-        model = Person

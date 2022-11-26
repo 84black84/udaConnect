@@ -6,18 +6,22 @@ from sqlalchemy.orm import Session
 from app.udaconnect.schemas import LocationSchema
 from app.udaconnect.models import Location
 from geoalchemy2.functions import ST_Point
+import logging
 
-""" Creates a kafka consumer for the topic 'Locations' which listens to new messages constantly.
-    
-"""
+'''
+    Creates a kafka consumer for the topic 'Locations' which listens to new messages constantly.
+'''
+
+logging.basicConfig(level=logging.WARN)
+logger = logging.getLogger("kafka locations topic consumer")
 
 def create_location(location):
     '''
-        Insertes a location inside the database by using Sql Alchemy
+        Inserts a location object into the database by using the Sql Alchemy framework
     '''
     validation_results = LocationSchema().validate(location)
     if validation_results:
-        print(f"Unexpected data format in payload: {validation_results}")
+        logger.error(f"Unexpected data format in payload: {validation_results}")
     else: 
         new_location = Location()
         new_location.person_id = location["person_id"]
@@ -33,13 +37,13 @@ TOPIC_NAME = 'locations'
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
 session = Session(engine)
 consumer = KafkaConsumer(TOPIC_NAME)
-print("'Locations' topic Kafka consumer started listening...")
+logger.info("'Locations' topic Kafka consumer started listening...")
 
 for message in consumer:
-    print(message.value)
-    print('')
+    logger.debug(message.value)
+    logger.debug('')
     location = ast.literal_eval(message.value.decode("UTF-8"))
-    print(location)
-    print('')
-    print(type(location))
+    logger.debug(location)
+    logger.debug('')
+    logger.debug(type(location))
     create_location(location)

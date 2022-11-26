@@ -6,8 +6,14 @@ from geoalchemy2.shape import to_shape
 from shapely.geometry.point import Point
 from sqlalchemy import BigInteger, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.ext.hybrid import hybrid_property
+from flask_restx import fields
 
 class Person(db.Model):
+    """ Person Database model
+
+    Args:
+        db (Model): SQLAlchemy Database model
+    """
     __tablename__ = "person"
 
     id = Column(Integer, primary_key=True)
@@ -17,6 +23,11 @@ class Person(db.Model):
 
 
 class Location(db.Model):
+    """ Location Databade model
+
+    Args:
+        db (Model): SQLAlchemy Database model
+    """
     __tablename__ = "location"
 
     id = Column(BigInteger, primary_key=True)
@@ -51,3 +62,12 @@ class Location(db.Model):
     def latitude(self) -> str:
         coord_text = self.wkt_shape
         return coord_text[coord_text.find("(") + 1 : coord_text.find(" ")]
+
+    @staticmethod
+    def get_location_fields(api):
+        return api.model('Location', {
+            'id': fields.Integer(description='location id', example=5),
+            'person_id': fields.Integer(description="related person's id", example="5"),
+            'coordinate': fields.String(description="geometry point", example="010100000000ADF9F197925EC0FDA19927D7C64240"),
+            'creation_time': fields.DateTime(description="location's datetime", example="Tue Aug 18 2020 10:37:06 GMT+0200 (Central European Summer Time)")
+            })

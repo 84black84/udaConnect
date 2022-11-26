@@ -74,7 +74,7 @@ class Location(db.Model):
     
     @staticmethod
     def get_location_fields(api):
-        return api.model('Person', {
+        return api.model('Location', {
             'id': fields.Integer(description='location id', example=5),
             'person_id': fields.Integer(description="related person's id", example="5"),
             'coordinate': fields.String(description="geometry point", example="	010100000000ADF9F197925EC0FDA19927D7C64240"),

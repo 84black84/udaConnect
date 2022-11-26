@@ -6,7 +6,7 @@ from app.udaconnect.models import Connection, Location, Person
 from sqlalchemy.sql import text
 
 logging.basicConfig(level=logging.WARNING)
-logger = logging.getLogger("udaconnect-api")
+logger = logging.getLogger("udaconnect-connections-api")
 
 class ConnectionService:
     @staticmethod

@@ -27,15 +27,21 @@ class ConnectionDataResource(Resource):
     """ Connection Data Resource
 
     Args:
-        Resource (Resource): lask_restx Resource class
+        Resource (Resource): flask_restx Resource class
 
-    Returns:
-        List[Connection]: List of all related connections
     """
     @responds(schema=ConnectionSchema, many=True)
     @api.doc(description="Returns all the persons who have been within a given distance of a given Person within a date range pluse the related locations.", responses={ 200: 'Return all the related persons and locations', 400: 'Failed to retrieve related connections.' })
     @api.marshal_with(connection_fields, as_list=True)
     def get(self, person_id) -> ConnectionSchema:
+        """ Get person connections based on the given person id
+
+        Args:
+            person_id (int): The person id
+
+        Returns:
+            List[Connection]: A list of the related connections_
+        """
         try:
             start_date: datetime = datetime.strptime(
                 request.args["start_date"], DATE_FORMAT
