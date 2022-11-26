@@ -15,7 +15,7 @@ def create_app(env=None):
 
     CORS(app)  # Set CORS for development
 
-    register_routes(api, app)
+    register_routes(api)
     db.init_app(app)
 
     @app.route("/health")

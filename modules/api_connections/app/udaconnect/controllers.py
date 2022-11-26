@@ -5,10 +5,12 @@ from flask import request
 from flask_accepts import responds
 from flask_restx import Namespace, Resource
 from typing import Optional
+import logging
 
 DATE_FORMAT = "%Y-%m-%d"
-
 api = Namespace("UdaConnect", description="Connections via geolocation - Connections API.")
+logging.basicConfig(level=logging.WARNING)
+logger = logging.getLogger("udaconnect-connections-api")
 
 @api.route("/persons/<person_id>/connection")
 @api.param("start_date", "Lower bound of date range", _in="query")
@@ -29,4 +31,5 @@ class ConnectionDataResource(Resource):
             end_date=end_date,
             meters=distance,
         )
+        
         return results
