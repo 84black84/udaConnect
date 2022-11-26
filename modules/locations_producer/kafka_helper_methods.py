@@ -2,10 +2,9 @@ from kafka import KafkaProducer, KafkaConsumer
 from kafka.errors import UnknownTopicOrPartitionError
 from kafka.admin import KafkaAdminClient, NewTopic
 
-## Send a text message to a kafka topic
-# producer = KafkaProducer(bootstrap_servers='localhost:9092')
-# producer.send('locations', b'kafka producer in Python -  test')
-# producer.flush()
+'''
+    Contains various helper methods to interact with Kafka server
+'''
 
 def send_test_text_message_to_kafka_locations_topic():
     producer = KafkaProducer(bootstrap_servers='localhost:9092')
