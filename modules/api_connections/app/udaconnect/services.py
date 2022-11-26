@@ -79,4 +79,9 @@ class ConnectionService:
 class PersonService:
     @staticmethod
     def retrieve_all() -> List[Person]:
+        """ Retrive all the person objects from the Database and return them into a list. 
+
+        Returns:
+            List[Person]: All the person object in the Database.
+        """
         return db.session.query(Person).order_by(Person.id).all()

@@ -20,11 +20,10 @@ class PersonsResource(Resource):
         try:
             payload = request.get_json()
             new_person: Person = PersonService.create(payload)
-            # raise ValueError('error reised for testing purposes.')
             return new_person, 201
         except Exception as e:
             print('Failed to create a new person: ' + str(e))
-            abort(400, "Failed to create a new person")
+            abort(400, "Failed to create a new person.")
 
     @responds(schema=PersonSchema, many=True)
     @api.doc(description = "Return all the person objects", responses={200: 'Returns a list of all the available person objects', 400: 'Was not able to retrieve the person objects'})
@@ -37,7 +36,6 @@ class PersonsResource(Resource):
             print('Failed to retrieve the person objects. Details: ' + str(e))
             abort(400, "Failed to retrieve the person objects")
         
-
 @api.route("/persons/<person_id>")
 @api.param("person_id", "Unique ID for a given Person", _in="query")
 class PersonResource(Resource):
