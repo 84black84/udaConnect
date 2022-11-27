@@ -4,9 +4,8 @@ WORKDIR .
 RUN apk add --no-cache gcc musl-dev linux-headers geos libc-dev postgresql-dev
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-RUN python kafka_locations_topic_consumer.py
 
-EXPOSE 5002
+EXPOSE 5003
 
 COPY . .
-CMD ["flask", "run", "--host", "0.0.0.0", "--port", "5002"]
+CMD ["flask", "run", "--host", "0.0.0.0", "--port", "5003"]

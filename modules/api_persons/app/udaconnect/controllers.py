@@ -5,9 +5,11 @@ from flask import request, abort
 from flask_accepts import accepts, responds
 from flask_restx import Namespace, Resource
 from typing import List
+import logging
 
 api = Namespace("UdaConnect", description="Connections via geolocation - Persons API.")
-
+logging.basicConfig(level=logging.WARNING)
+logger = logging.getLogger("udaconnect-persons-api")
 person_fields = Person.get_person_fields(api)
 
 @api.route("/persons", endpoint='persons')
@@ -22,7 +24,7 @@ class PersonsResource(Resource):
             new_person: Person = PersonService.create(payload)
             return new_person, 201
         except Exception as e:
-            print('Failed to create a new person: ' + str(e))
+            logger.error('Failed to create a new person: ' + str(e))
             abort(400, "Failed to create a new person.")
 
     @responds(schema=PersonSchema, many=True)
@@ -33,7 +35,7 @@ class PersonsResource(Resource):
             persons: List[Person] = PersonService.retrieve_all()
             return persons
         except Exception as e:
-            print('Failed to retrieve the person objects. Details: ' + str(e))
+            logger.error('Failed to retrieve the person objects. Details: ' + str(e))
             abort(400, "Failed to retrieve the person objects")
         
 @api.route("/persons/<person_id>")
@@ -45,5 +47,6 @@ class PersonResource(Resource):
     def get(self, person_id) -> Person:
         person: Person = PersonService.retrieve(person_id)
         if person is None:
+            logger.error("Person not found in the Database.")
             abort(404, "Person not found")
         return person
