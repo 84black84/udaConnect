@@ -150,3 +150,17 @@ Your architecture diagram should focus on the services and how they talk to one 
 ## Tips
 * We can access a running Docker container using `kubectl exec -it <pod_id> sh`. From there, we can `curl` an endpoint to debug network issues.
 * The starter project uses Python Flask. Flask doesn't work well with `asyncio` out-of-the-box. Consider using `multiprocessing` to create threads for asynchronous behavior in a standard Flask application.
+
+## Solution
+At this point, the initial version of program is running properly on our virualbox kubernetes and we can access it via localhost.
+
+<!-- ![Initial application's version](images/inital_application_version_accessing_it_from_host.png) -->
+<img src="images/inital_application_version_accessing_it_from_host.png" alt="Initial application's version on browser" width="1000"/>
+
+We have decided to leave the initial version of the application up and running and we added new microservices inside the module folder independent on the initial of the app and deployed them on kubernetes as well, including a copy of the frontend, almost untouched, since frontend implementation is out of scope for this project, 
+we just configured it accordignly so that it calls the new api endpoints (exposed in different ports than the original backend api's port).
+
+**Initial application diagram in regards the port exposure ->**
+
+<img src="images/Udaconnect%20-%20Ports%20exposed%20diagram.png" alt="Ports exposure diagram Initial app version" width="600"/>
+<!-- ![Ports exposure diagram Initial app version](images/Udaconnect%20-%20Ports%20exposed%20diagram.png) -->
