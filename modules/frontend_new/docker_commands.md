@@ -7,4 +7,4 @@ docker build -t udaconnect_frontend .
 docker run -d -p 3001:3001 udaconnect_frontend
 
 ## To connect a running container to an existing user-defined bridge (udaconnect-net)
-docker network connect udaconnect-net 8ddfa012195c
+docker network connect udaconnect-net ed535666589e

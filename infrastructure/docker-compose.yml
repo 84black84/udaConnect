@@ -31,8 +31,12 @@ services:
       - zookeeper
     networks:
       - udaconnect-net
-  myapp:
+  udaconnect_locations_api:
     image: 'udaconnect_locations_api'
+    networks:
+      - udaconnect-net
+  udaconnect_locations_producer:
+    image: 'udaconnect_locations_producer'
     networks:
       - udaconnect-net
 

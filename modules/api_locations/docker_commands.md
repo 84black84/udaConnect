@@ -7,4 +7,4 @@ docker build -t udaconnect_locations_api .
 docker run -d -p 5002:5002 udaconnect_locations_api
 
 ## To connect a running container to an existing user-defined bridge (udaconnect-net)
-docker network connect udaconnect-net 862fc9cdaf26
+docker network connect udaconnect-net 88e9833fab3f

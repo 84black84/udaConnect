@@ -17,18 +17,18 @@ logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("locations-producer")
 
 TOPIC_NAME = 'locations'
-KAFKA_SERVER = ['localhost:9092']
+KAFKA_SERVER = ['kafka']
 
 def create_kafka_topic():
     """
         Creates a new 'locations' topic if it does not already exist.
     """
-    consumer = KafkaConsumer(bootstrap_servers=['localhost:9092'])
+    consumer = KafkaConsumer(bootstrap_servers=KAFKA_SERVER)
     topics = consumer.topics()
     if (len(topics) == 0 or 'locations' not in topics):
         logger.info("The 'locations' kafka topic will now be added in the topics list.")
         ## create new topic
-        admin_client = KafkaAdminClient(bootstrap_servers=["localhost:9092"])
+        admin_client = KafkaAdminClient(bootstrap_servers=KAFKA_SERVER)
         topic_list = []
         topic_list.append(NewTopic(name="locations", num_partitions=1, replication_factor=1))
         admin_client.create_topics(new_topics=topic_list, validate_only=False)
