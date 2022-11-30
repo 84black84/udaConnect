@@ -160,7 +160,11 @@ At this point, the initial version of program is running properly on our virualb
 We have decided to leave the initial version of the application up and running and we added new microservices inside the module folder independent on the initial of the app and deployed them on kubernetes as well, including a copy of the frontend, almost untouched, since frontend implementation is out of scope for this project, 
 we just configured it accordignly so that it calls the new api endpoints (exposed in different ports than the original backend api's port).
 
+### Initial Solution's architecture - Dependency graph
+<img src="images/UdaConnect_Initial_VersionDependency_graph.png" alt="Dependency graph" width="1000"/>
+
 **Initial application diagram in regards the port exposure ->**
+
 
 <img src="images/Udaconnect%20-%20Ports%20exposed%20diagram.png" alt="Ports exposure diagram Initial app version" width="600"/>
 <!-- ![Ports exposure diagram Initial app version](images/Udaconnect%20-%20Ports%20exposed%20diagram.png) -->
