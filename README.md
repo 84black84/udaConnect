@@ -163,8 +163,16 @@ we just configured it accordignly so that it calls the new api endpoints (expose
 ### Initial Solution's architecture - Dependency graph
 <img src="images/UdaConnect_Initial_VersionDependency_graph.png" alt="Dependency graph" width="1000"/>
 
-**Initial application diagram in regards the port exposure ->**
+It seems like there are at least three services that we can split them into three seperate (probably Rest) microservices, namely, connection service, person service and the location service.
 
+Following the Strangler Patterm for refactoring from a monolith architecture to a microservices one, we excluded from a starting point potential option selection to refactor the `Connection Service`, since it seems like dependent on Database schemas of the other two services the Persons service and the locations service. 
+
+The other two services look good candiates for starting migrating our initial solution however it seem that the PErson service is preferable to start from, since it seems a good canditate to use the same message passing type, Rest, like in the original solution, and it is also possible to use the same framework and libraries with the initial one, and just remove unecessary code that it can be used in the other microservies. 
+
+The Location service on the other hand seems like a good candidate to use other message passing techniques like `gRPC` and message queues like `Apache Kafka`.
+
+
+**Initial application diagram in regards the port exposure on Kubernetes ->**
 
 <img src="images/Udaconnect%20-%20Ports%20exposed%20diagram.png" alt="Ports exposure diagram Initial app version" width="600"/>
 <!-- ![Ports exposure diagram Initial app version](images/Udaconnect%20-%20Ports%20exposed%20diagram.png) -->
