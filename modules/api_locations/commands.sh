@@ -1,0 +1,1 @@
+flask run --host '0.0.0.0' --port 5002 & python kafka_locations_topic_consumer.py

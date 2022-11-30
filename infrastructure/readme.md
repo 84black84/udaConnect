@@ -2,3 +2,6 @@ We are using Docker images provided by Bitnami for Apache Kafka and Zookeeper se
 
 For additional information please navigate here ->
 https://hub.docker.com/r/bitnami/kafka
+
+## docker network
+docker network create udaconnect-net

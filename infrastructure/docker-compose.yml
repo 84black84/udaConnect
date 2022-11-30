@@ -1,30 +1,43 @@
 version: "2"
 
+networks:
+  udaconnect-net:
+    driver: bridge
+
 services:
   zookeeper:
     image: docker.io/bitnami/zookeeper:3.8
     ports:
       - "2181:2181"
-    volumes:
-      - "zookeeper_data:/bitnami"
+    # volumes:
+    #   - "zookeeper_data:/bitnami"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - udaconnect-net
+
   kafka:
     image: docker.io/bitnami/kafka:3.3
     ports:
       - "9092:9092"
-    volumes:
-      - "kafka_data:/bitnami"
+    # volumes:
+    #   - "kafka_data:/bitnami"
     environment:
-      - KAFKA_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      # - KAFKA_LISTENERS=PLAINTEXT://:9092
+      # - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
+    networks:
+      - udaconnect-net
+  myapp:
+    image: 'udaconnect_locations_api'
+    networks:
+      - udaconnect-net
 
-volumes:
-  zookeeper_data:
-    driver: local
-  kafka_data:
-    driver: local
+# volumes:
+#   zookeeper_data:
+#     driver: local
+#   kafka_data:
+#     driver: local

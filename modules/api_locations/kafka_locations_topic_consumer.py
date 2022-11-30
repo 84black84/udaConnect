@@ -36,7 +36,7 @@ TOPIC_NAME = 'locations'
 
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
 session = Session(engine)
-consumer = KafkaConsumer(TOPIC_NAME)
+consumer = KafkaConsumer(TOPIC_NAME,bootstrap_servers='kafka')
 logger.info("'Locations' topic Kafka consumer started listening...")
 
 for message in consumer:
