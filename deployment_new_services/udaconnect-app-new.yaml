@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: udaconnect-app-new
+  name: udaconnect-app-new
+spec:
+  ports:
+  - name: "3001"
+    port: 3001
+    targetPort: 3001
+    nodePort: 30002
+  selector:
+    service: udaconnect-app-new
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: udaconnect-app-new
+  name: udaconnect-app-new
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: udaconnect-app-new
+  template:
+    metadata:
+      labels:
+        service: udaconnect-app-new
+    spec:
+      containers:
+      - image: 84black84/udaconnect_frontend:latest
+        name: udaconnect-app-new
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "64m"
+          limits:
+            memory: "256Mi"
+            cpu: "256m"
+      restartPolicy: Always
