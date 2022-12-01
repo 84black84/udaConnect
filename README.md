@@ -154,11 +154,18 @@ Your architecture diagram should focus on the services and how they talk to one 
 ## Solution
 At this point, the initial version of program is running properly on our virualbox kubernetes and we can access it via localhost.
 
-<!-- ![Initial application's version](images/inital_application_version_accessing_it_from_host.png) -->
 <img src="images/inital_application_version_accessing_it_from_host.png" alt="Initial application's version on browser" width="1000"/>
 
 We have decided to leave the initial version of the application up and running and we added new microservices inside the module folder independent on the initial of the app and deployed them on kubernetes as well, including a copy of the frontend, almost untouched, since frontend implementation is out of scope for this project, 
 we just configured it accordignly so that it calls the new api endpoints (exposed in different ports than the original backend api's port).
+
+#### Initial application diagram in regards the port exposure on Kubernetes ->
+
+<img src="images/Udaconnect%20-%20Ports%20exposed%20diagram.png" alt="Ports exposure diagram Initial app version" width="600"/>
+
+#### New microservices application diagram in regards the port exposure on Kubernetes ->
+
+<img src="images/Udaconnect-Ports_exposure_diagram_new_architecture.png" alt="Ports exposure diagram Initial app version" width="600"/>
 
 ### Initial Solution's architecture - Dependency graph
 <img src="images/UdaConnect_Initial_VersionDependency_graph.png" alt="Dependency graph" width="1000"/>
@@ -167,12 +174,53 @@ It seems like there are at least three services that we can split them into thre
 
 Following the Strangler Patterm for refactoring from a monolith architecture to a microservices one, we excluded from a starting point potential option selection to refactor the `Connection Service`, since it seems like dependent on Database schemas of the other two services the Persons service and the locations service. 
 
-The other two services look good candiates for starting migrating our initial solution however it seem that the PErson service is preferable to start from, since it seems a good canditate to use the same message passing type, Rest, like in the original solution, and it is also possible to use the same framework and libraries with the initial one, and just remove unecessary code that it can be used in the other microservies. 
+The other two services look good candiates for starting migrating our initial solution however it seem that the Person service is preferable to start from, since it seems a good canditate to use the same message passing type, Rest, like in the original solution, and it is also possible to use the same framework and libraries with the initial one, and just remove unecessary code that it can be used in the other microservies. 
 
 The Location service on the other hand seems like a good candidate to use other message passing techniques like `gRPC` and message queues like `Apache Kafka`.
 
+### New microservices architecture design
+<img src="docs/architecture_design.png" alt="New architecture design " width="1000"/>
 
-**Initial application diagram in regards the port exposure on Kubernetes ->**
+We decided to use Rest message passing techniques for all the endpoints that are currently consumed by our fronted web application.
+We just needed to split the code on the api related to those three endpoints: 
+- `api/persons/<person_id>`
+- `api/persons`
+- `api/persons/<person_id>/connection`
 
-<img src="images/Udaconnect%20-%20Ports%20exposed%20diagram.png" alt="Ports exposure diagram Initial app version" width="600"/>
-<!-- ![Ports exposure diagram Initial app version](images/Udaconnect%20-%20Ports%20exposed%20diagram.png) -->
+in two Rest API microservices, persons API Microservice and Connections API microservice.
+
+The last API endpoint that was part of the initial code of the backend api that was intended to be consumed by the web application as well, event though its call implementation is missing from the fronted starter code will be implemented in another microservice, namely, locations microservice.
+
+We had to decide whether it is a better solution based on the requirements and the deadline that every microservice should keep sharing the same Database like the initial application version or each microservice to be accompanied with its own Database as it is a general recommendation when it comes to microservices application design.
+We eventually decided to keep sharing the same Database otherwise would complicate our implementation and this is not a good idea based on our resources and time restrictions, also considering that at this point the Database is a simple one.
+
+The next design decision we were called to take is whether it is fine to keep using similar or duplicate code among the new microservices or  making http calls between those api microservices every time to retrieve necessary uinformation to complete our HTTP response.
+
+For example, we could have implemented our connections api microservice in that way that instead of including the location schema and the person schema in its implemantation to retrieve the information for the related persons from the persons_api microservice and the location information from ten locations_api microservice.
+
+This approach would increase the communication load inside our application would make the code implementation more complicated to implement and maintain and would increase the dependency between the microservices when it comes to adding new features in the near future. Instead we rather use some duplicate code for now, especially now that we have decided that all the microservices will be sharing the same Database.  
+
+## Persons Web API and Connections Microservices
+
+We took advantage of the initial version of the api keep most of the original code, and implemented it by using the same framework and library dependencies.
+We had just to enhance the API documentation, adding the model specification, adding endpoint descriptions, provide post request content examples etc., by using the same external library that was used in the original API, namely `flask-restx` and keep the live Swagger documentation in our solution.
+
+<img src="images/persons_api_swagger_1.png" alt="Persons API Swagger page" width="1000"/>
+<img src="images/persons_api_swagger_2.png" alt="Persons API Swagger page Post person example" width="1000"/>
+
+## Locations Producer
+Since we expect a high volume of data sent constantly from the user's mobile app to our backend we decided to implement a locations producer service exposing a gRPC endpoint to receive this data.  
+
+Because with gRPC the messages are transmitted as binary data, the overall size of the payload is reduced and
+thus the request and response times are improved. The mobile devices as clients can take advantage of advanced streaming and connection features that gRPC provides which help save bandwidth, do more over fewer TCP connections and save CPU usage and battery life.
+
+Source: [What is gRPC?](https://grpc.io/docs/what-is-grpc/faq/)
+
+By using message queing as communication technique, something that Kafka can offer, we ensure asynchronous behaviour to this part of the application which is really important since we are expectiong a lot of data to communicate from the mobile app. So the gRPC endpoint after retrieving a new Location object from the mobile app it add its as a message to Kafka `locations` topic asynchronously. 
+
+## Locations Microservice
+We decided to combine two different message passing techniques here, REST and Kafka message queing to ensure asynchronous behaviour for our mobile app and at the same time taking advantage of  the REST message passing technique to make the input data consistent and using the location object validation implemented in the context of our REST API to validate the input from the Kafka server, something that Kafka alone does not do it.
+
+So we have implemented a Kafka consumer listening constantly for new `locations` topic messages and when a new message arrive it validates its input and creates a new entry to the locations DB table.
+
+Similarly to the other two REST microservices here we are also using python Flask, most of the orignal api code related to the Locations fucntionality and the `flask-restx` library to keep but enhance our live Swagger API documentation.  
