@@ -165,7 +165,7 @@ we just configured it accordignly so that it calls the new api endpoints (expose
 
 #### New microservices application diagram in regards the port exposure on Kubernetes ->
 
-<img src="images/Udaconnect-Ports_exposure_diagram_new_architecture.png" alt="Ports exposure diagram Initial app version" width="600"/>
+<img src="images/Udaconnect-Ports_exposure_diagram_new_architecture.png" alt="Ports exposure diagram Initial app version" width="1000"/>
 
 ### Initial Solution's architecture - Dependency graph
 <img src="images/UdaConnect_Initial_VersionDependency_graph.png" alt="Dependency graph" width="1000"/>
