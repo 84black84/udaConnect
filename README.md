@@ -223,4 +223,46 @@ We decided to combine two different message passing techniques here, REST and Ka
 
 So we have implemented a Kafka consumer listening constantly for new `locations` topic messages and when a new message arrive it validates its input and creates a new entry to the locations DB table.
 
-Similarly to the other two REST microservices here we are also using python Flask, most of the orignal api code related to the Locations fucntionality and the `flask-restx` library to keep but enhance our live Swagger API documentation.  
+Similarly to the other two REST microservices here we are also using the python Flask Framework to implement our REST Web API, we are also using most of the orignal api code related to the Locations fucntionality and the `flask-restx` library to keep and also enhance our live Swagger Web API documentation.  
+
+## Containerizing all our Microservices
+In new our application solution, each Microservice contains a Dockerfile and a `docker_commands.md` file listing all the Docker commands needed to build a Docker image out of each Microservice's dockerfile, to run a container locally out of it, tag it and push it to the Docker Hub as a public repository. 
+
+Running a container locally is really useful especially during the Development phase of the application.
+
+We are also using a docker bridge network for our different containers to communicate with each other.
+This was handy especially for communicating with Kafka Docker container.
+[Use bridge networks](https://docs.docker.com/network/bridge/)
+
+## Use existing Kafka container
+We are using the the latest version of the [bitnami/kafka](https://hub.docker.com/r/bitnami/kafka) pulled its latest image from their docker hub page, with the docker command:
+
+`docker pull bitnami/kafka`
+
+Following the instructions on the same docker hub page we proceeded with using a Docker compose, that includes the Kafka server, the Zookeper, we configured also there our custom network bridge and include in the same Docker compose file instructions where in Docker Hub to find our two service that communicate directly with the Kafka server, namely, the `locations producer` and the `locations microservice` services.
+
+## Create yaml files to deploy our services to kubernetes
+We created yaml files for all the containers we are using to deploy them by using the `kubectl` command to our Kubernetes cluster similar with the ones used in the starter code.
+For the Kafka related containers though. we just transformed the docker compose file to Kubernetes deployment and service resources by using the instructions here ->
+
+[From Docker Compose File to Kubernetes Resources](https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/)
+
+All the yaml files can be found inside in the `deployment_new_services` folder in our solution.
+
+## How to test the gRPC endpoint
+Our gRPC endpoint is hosted in our `locations producer` Microservice and inside this microservice we have added a python script, inside the python file `location_client.py` in order to test easily our endpoint. 
+
+It is a really simple script that uses the `location_pb2` `location_pb2_grpc` files generated in the context of our gRPC implementation to send a new Location object.
+
+In order to run it you need to open the terminal inside the related docker container, in the main path where all the files of the service are located and run ->
+
+`python location_client.py`.
+
+Because it is a test code it is better to test it on your local docker container, if for any reason you want to test on the Kubernetes you need to execute the following command ->
+
+`kubectl exec <pod-name> -- python location_client.py`
+
+Alternatively you can get get a shell to the running container itself and then run `python location_client.py`.
+
+Source [Get a Shell to a Running Container](https://kubernetes.io/docs/tasks/debug/debug-application/get-shell-running-container/)
+
