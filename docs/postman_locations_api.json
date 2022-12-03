@@ -1,0 +1,39 @@
+openapi: 3.0.1
+info:
+  title: Udaconnect Locations API
+  description: Get the related location object from the DB based on the given location id
+  version: '0.1'
+servers:
+  - url: http://localhost:30004
+paths:
+  /api/locations/29:
+    get:
+      description: Return a location object based on the given location id
+      responses:
+        '200':
+          description: Returns a location object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  creation_time:
+                    type: string
+                  latitude:
+                    type: string
+                  id:
+                    type: integer
+                  longitude:
+                    type: string
+                  person_id:
+                    type: integer
+              examples:
+                '0':
+                  value: >
+                    {"creation_time": "2020-08-18T10:37:06", "id": 29,
+                    "longitude": "37.553441", "latitude": "-122.290524",
+                    "person_id": 1}
+      servers:
+        - url: http://localhost:30004
+    servers:
+      - url: http://localhost:30004
