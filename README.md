@@ -208,6 +208,10 @@ We had just to enhance the API documentation, adding the model specification, ad
 <img src="images/persons_api_swagger_1.png" alt="Persons API Swagger page" width="1000"/>
 <img src="images/persons_api_swagger_2.png" alt="Persons API Swagger page Post person example" width="1000"/>
 
+We also generated a `OAS 3.0` definition as a `yaml` file for each Microservice REST API using Swagger.
+
+Source: [how to create an openapi definition using swagger](https://swagger.io/docs/swagger-inspector/how-to-create-an-openapi-definition-using-swagger/)
+
 ## Locations Producer
 Since we expect a high volume of data sent constantly from the user's mobile app to our backend we decided to implement a locations producer service exposing a gRPC endpoint to receive this data.  
 
