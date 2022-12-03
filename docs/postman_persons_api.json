@@ -1,0 +1,155 @@
+openapi: 3.0.1
+info:
+  title: Udaconnect Persons API
+  description: Gets a person, all the persons and create a new person in the DB
+  version: '0.1'
+servers:
+  - url: http://localhost:30005
+paths:
+  /api/persons/2:
+    get:
+      description: Gets the id of a person as parameter and returns the relater person object
+      responses:
+        '200':
+          description: Returns a person object based on the given person_id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company_name:
+                    type: string
+                  last_name:
+                    type: string
+                  id:
+                    type: integer
+                  first_name:
+                    type: string
+              examples:
+                '0':
+                  value: >
+                    {"last_name": "Mavrogiannis", "first_name": "Christos",
+                    "company_name": "my company", "id": 2}
+      servers:
+        - url: http://localhost:30005
+    servers:
+      - url: http://localhost:30005
+  /api/persons:
+    get:
+      description: Return all the person objects
+      responses:
+        '200':
+          description: 	Returns a person object based on the given person_id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '0':
+                  value: >
+                    [{"last_name": "Trexler", "first_name": "Pam",
+                    "company_name": "Hampton, Hampton and McQuill", "id": 1},
+                    {"last_name": "Mavrogiannis", "first_name": "Christos",
+                    "company_name": "my company", "id": 2}, {"last_name": "Mav",
+                    "first_name": "Ch", "company_name": "company", "id": 3},
+                    {"last_name": "Mav", "first_name": "Ch", "company_name":
+                    "company", "id": 4}, {"last_name": "Fargo", "first_name":
+                    "Taco", "company_name": "Alpha Omega Upholstery", "id": 5},
+                    {"last_name": "Shader", "first_name": "Frank",
+                    "company_name": "USDA", "id": 6}, {"last_name": "Hood",
+                    "first_name": "Tom", "company_name": "The Hood company",
+                    "id": 7}, {"last_name": "Badman", "first_name": "Paul",
+                    "company_name": "Paul Badman & Associates", "id": 8},
+                    {"last_name": "Spring", "first_name": "Otto",
+                    "company_name": "The Chicken Sisters Restaurant", "id": 9},
+                    {"last_name": "Hood", "first_name": "Tom", "company_name":
+                    "The Hood company", "id": 10}, {"last_name": "Hood",
+                    "first_name": "Tom", "company_name": "The Hood company",
+                    "id": 11}, {"last_name": "Hood", "first_name": "Tom",
+                    "company_name": "The Hood company", "id": 12}, {"last_name":
+                    "Hood", "first_name": "Tom", "company_name": "The Hood
+                    company", "id": 13}, {"last_name": "Hood", "first_name":
+                    "Tom", "company_name": "The Hood company", "id": 14},
+                    {"last_name": "Hood", "first_name": "Tom", "company_name":
+                    "The Hood company", "id": 15}, {"last_name": "Hood",
+                    "first_name": "Tom", "company_name": "The Hood company",
+                    "id": 16}, {"last_name": "Hood", "first_name": "Tom",
+                    "company_name": "The Hood company", "id": 17}, {"last_name":
+                    "Hood", "first_name": "Tom", "company_name": "The Hood
+                    company", "id": 18}, {"last_name": "Hood", "first_name":
+                    "Tom", "company_name": "The Hood company", "id": 19},
+                    {"last_name": "Hood", "first_name": "Tom", "company_name":
+                    "The Hood company", "id": 20}, {"last_name": "Hood",
+                    "first_name": "Tom", "company_name": "The Hood company",
+                    "id": 21}, {"last_name": "Hood", "first_name": "Tom",
+                    "company_name": "The Hood company", "id": 22}, {"last_name":
+                    "Hood", "first_name": "Tom", "company_name": "The Hood
+                    company", "id": 23}, {"last_name": "Hood", "first_name":
+                    "Tom", "company_name": "The Hood company", "id": 24},
+                    {"last_name": "Hood", "first_name": "Tom", "company_name":
+                    "The Hood company", "id": 25}, {"last_name": "Hood",
+                    "first_name": "Tom", "company_name": "The Hood company",
+                    "id": 26}, {"last_name": "Hood", "first_name": "Tom",
+                    "company_name": "The Hood company", "id": 27}, {"last_name":
+                    "Hood", "first_name": "Tom", "company_name": "The Hood
+                    company", "id": 28}, {"last_name": "Hood", "first_name":
+                    "Tom", "company_name": "The Hood company", "id": 29},
+                    {"last_name": "Hood", "first_name": "Tom", "company_name":
+                    "The Hood company", "id": 30}, {"last_name": "Hood",
+                    "first_name": "Tom", "company_name": "The Hood company",
+                    "id": 31}, {"last_name": "Hood", "first_name": "Tom",
+                    "company_name": "The Hood company", "id": 32}, {"last_name":
+                    "Hood", "first_name": "Tom", "company_name": "The Hood
+                    company", "id": 33}, {"last_name": "Hood", "first_name":
+                    "Tom", "company_name": "The Hood company", "id": 34},
+                    {"last_name": "Hood", "first_name": "Tom", "company_name":
+                    "The Hood company", "id": 35}, {"last_name": "Hood",
+                    "first_name": "Tom", "company_name": "The Hood company",
+                    "id": 36}, {"last_name": "Hood", "first_name": "Tom",
+                    "company_name": "The Hood company", "id": 37}, {"last_name":
+                    "Hood", "first_name": "Tom", "company_name": "The Hood
+                    company", "id": 38}, {"last_name": "Hood", "first_name":
+                    "Tom", "company_name": "The Hood company", "id": 39},
+                    {"last_name": "Hood", "first_name": "Tom", "company_name":
+                    "The Hood company", "id": 40}, {"last_name": "Hood",
+                    "first_name": "Tom", "company_name": "The Hood company",
+                    "id": 41}, {"last_name": "Hood", "first_name": "Tom",
+                    "company_name": "The Hood company", "id": 42}, {"last_name":
+                    "Hood", "first_name": "Tom", "company_name": "The Hood
+                    company", "id": 43}, {"last_name": "Hood", "first_name":
+                    "Tom", "company_name": "The Hood company", "id": 44}]
+      servers:
+        - url: http://localhost:30005
+    post:
+      description: Create a new person
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company_name:
+                  type: string
+                last_name:
+                  type: string
+                first_name:
+                  type: string
+            examples:
+              '0':
+                value: "{\r\n  \"first_name\": \"Tom\",\r\n  \"last_name\": \"Hood\",\r\n  \"company_name\": \"The Hood company\"\r\n}"
+      responses:
+        '201':
+          description: Returns the newly created person object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '0':
+                  value: "{\r\n  \"first_name\": \"Tom\",\r\n  \"last_name\": \"Hood\",\r\n  \"company_name\": \"The Hood company\", \"id\": 28 \r\n}"
+      servers:
+        - url: http://localhost:30005
+    servers:
+      - url: http://localhost:30005
